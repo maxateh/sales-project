@@ -50,3 +50,26 @@ ORDER BY
     sales_per_channel;
 
 
+-- Sales performance by channel (Online vs Offline)
+SELECT 
+  sales_channel,
+  COUNT(*) AS total_orders,
+  SUM(units_sold) AS total_units_sold,
+  SUM(total_revenue) AS total_revenue,
+  SUM(total_cost) AS total_cost,
+  SUM(total_profit) AS total_profit,
+  ROUND(AVG(total_profit), 2) AS avg_profit_per_order,
+  ROUND(AVG(total_revenue), 2) AS avg_revenue_per_order
+FROM sales_record
+GROUP BY sales_channel
+ORDER BY total_revenue DESC;
+
+
+-- Did high-priority orders perform better or get delivered faster?
+SELECT 
+  order_priority,
+  COUNT(*) AS total_orders,
+  ROUND(AVG(ship_date - order_date), 2) AS avg_delivery_days
+FROM sales_record
+GROUP BY order_priority
+ORDER BY avg_delivery_days ASC;

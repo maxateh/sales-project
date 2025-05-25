@@ -31,3 +31,4 @@ SELECT
 FROM sales_record
 WHERE (ship_date - order_date) > 25
 ORDER BY delivery_days DESC;
+

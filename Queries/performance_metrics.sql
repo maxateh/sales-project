@@ -50,7 +50,7 @@ ORDER BY
     sales_per_channel;
 
 
--- Sales performance by channel (Online vs Offline)
+-- Revenue per by channel
 SELECT 
   sales_channel,
   COUNT(*) AS total_orders,

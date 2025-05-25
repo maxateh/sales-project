@@ -3,9 +3,12 @@ SELECT
   order_priority,
   COUNT(*) AS total_orders,
   ROUND(AVG(ship_date - order_date), 2) AS avg_delivery_days
-FROM sales_record
-GROUP BY order_priority
-ORDER BY avg_delivery_days ASC;
+FROM
+    sales_record
+GROUP BY
+    order_priority
+ORDER BY
+    avg_delivery_days ASC;
 
 
 -- Profit per Order by Priority
@@ -14,9 +17,12 @@ SELECT
   COUNT(*) AS total_orders,
   SUM(total_profit) AS total_profit,
   ROUND(AVG(total_profit), 2) AS avg_profit_per_order
-FROM sales_record
-GROUP BY order_priority
-ORDER BY avg_profit_per_order DESC;
+FROM
+    sales_record
+GROUP BY
+    order_priority
+ORDER BY
+    avg_profit_per_order DESC;
 
 
 -- Delayed orders of more than 7 days
@@ -28,7 +34,11 @@ SELECT
   order_date,
   ship_date,
   (ship_date - order_date) AS delivery_days
-FROM sales_record
-WHERE (ship_date - order_date) > 25
-ORDER BY delivery_days DESC;
+FROM
+    sales_record
+WHERE
+    (ship_date - order_date) > 25
+ORDER BY
+    delivery_days DESC;
+
 

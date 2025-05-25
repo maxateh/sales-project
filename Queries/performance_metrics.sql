@@ -63,3 +63,77 @@ SELECT
 FROM sales_record
 GROUP BY sales_channel
 ORDER BY total_revenue DESC;
+
+
+-- Revenue per month trend
+SELECT
+    DATE_TRUNC('month', order_date) AS month,
+    SUM(total_revenue) AS revenue
+FROM
+    sales_record
+GROUP BY
+    month
+ORDER BY
+    month;
+
+
+-- Revenue by region
+SELECT
+    region,
+    SUM(total_revenue) AS total_revenue
+FROM
+    sales_record
+GROUP BY
+    region
+ORDER BY
+    total_revenue DESC;
+
+
+-- Revenue by type
+SELECT
+    item_type,
+    SUM(total_revenue) AS revenue
+FROM
+    sales_record
+GROUP BY
+    item_type
+ORDER BY
+    revenue DESC;
+
+
+-- Units sold vs Revenue generated
+SELECT
+    item_type,
+    SUM(units_sold) AS total_units,
+    SUM(total_revenue) AS total_revenue
+FROM
+    sales_record
+GROUP BY
+    item_type;
+
+
+-- Top 5 most profitable countries
+SELECT
+    country,
+    SUM(total_profit) AS profit
+FROM
+    sales_record
+GROUP BY
+    country
+ORDER BY
+    profit DESC
+LIMIT 5;
+
+
+-- Total profit over time
+SELECT
+    order_date,
+    SUM(total_profit) AS daily_profit
+FROM
+    sales_record
+GROUP BY
+    order_date
+ORDER BY
+    order_date;
+
+

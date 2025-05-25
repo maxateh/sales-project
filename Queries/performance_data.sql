@@ -36,3 +36,17 @@ GROUP BY
     year
 ORDER BY
     year;
+
+
+-- Sales performance by channel
+SELECT 
+  sales_channel,
+  SUM(units_sold) AS sales_per_channel
+FROM 
+    sales_record
+GROUP BY 
+    sales_channel
+ORDER BY
+    sales_per_channel;
+
+

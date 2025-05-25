@@ -63,13 +63,3 @@ SELECT
 FROM sales_record
 GROUP BY sales_channel
 ORDER BY total_revenue DESC;
-
-
--- Did high-priority orders perform better or get delivered faster?
-SELECT 
-  order_priority,
-  COUNT(*) AS total_orders,
-  ROUND(AVG(ship_date - order_date), 2) AS avg_delivery_days
-FROM sales_record
-GROUP BY order_priority
-ORDER BY avg_delivery_days ASC;

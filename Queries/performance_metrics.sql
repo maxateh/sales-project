@@ -26,18 +26,6 @@ ORDER BY
     profits_per_region DESC;
 
 
--- Yearly sales
-SELECT 
-  DATE_TRUNC('year', order_date) AS year,
-  SUM(total_revenue) AS revenue_per_year
-FROM 
-    sales_record
-GROUP BY 
-    year
-ORDER BY
-    year;
-
-
 -- Sales performance by channel
 SELECT 
   sales_channel,
@@ -66,18 +54,6 @@ GROUP BY
     sales_channel
 ORDER BY
     total_revenue DESC;
-
-
--- Revenue per month trend
-SELECT
-    DATE_TRUNC('month', order_date) AS month,
-    SUM(total_revenue) AS revenue
-FROM
-    sales_record
-GROUP BY
-    month
-ORDER BY
-    month;
 
 
 -- Revenue by region

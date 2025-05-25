@@ -116,3 +116,11 @@ ORDER BY
     order_date;
 
 
+-- Revenue comparison per priority
+SELECT
+    order_priority,
+    SUM(total_revenue) AS revenue
+FROM
+    sales_record
+GROUP BY
+    order_priority;

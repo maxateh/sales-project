@@ -60,9 +60,12 @@ SELECT
   SUM(total_profit) AS total_profit,
   ROUND(AVG(total_profit), 2) AS avg_profit_per_order,
   ROUND(AVG(total_revenue), 2) AS avg_revenue_per_order
-FROM sales_record
-GROUP BY sales_channel
-ORDER BY total_revenue DESC;
+FROM
+    sales_record
+GROUP BY
+    sales_channel
+ORDER BY
+    total_revenue DESC;
 
 
 -- Revenue per month trend

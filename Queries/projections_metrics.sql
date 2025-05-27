@@ -132,5 +132,3 @@ SELECT
   ROUND(avg_growth.avg_growth_rate * 100, 2) AS growth_percent_used
 FROM
   last_year, avg_growth;
-
-

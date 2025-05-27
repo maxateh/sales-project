@@ -68,3 +68,24 @@ GROUP BY
     country;
 
 
+-- Year-over-Year growth
+WITH yearly_sales AS (
+  SELECT 
+    EXTRACT(YEAR FROM order_date) AS year,
+    SUM(units_sold) AS units_sold
+  FROM sales_record
+  GROUP BY year
+),
+growth_rate AS (
+  SELECT 
+    year,
+    units_sold,
+    LAG(units_sold) OVER (ORDER BY year) AS previous_year_units
+  FROM yearly_sales
+)
+SELECT 
+  year,
+  units_sold,
+  ROUND(100.0 * (units_sold - previous_year_units) / previous_year_units, 2) AS yoy_growth_percent
+FROM growth_rate
+WHERE previous_year_units IS NOT NULL;

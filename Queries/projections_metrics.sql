@@ -1,5 +1,5 @@
 -- Revenue growth rate per year
--- Step 1: Calculate total revenue per year from the sales_record table
+-- CTE for total revenue per year from the sales_record table
 WITH yearly_revenue AS (
   SELECT
     EXTRACT(YEAR FROM order_date)::int AS year,  -- Extract year from order_date
@@ -9,7 +9,7 @@ WITH yearly_revenue AS (
   ORDER BY year
 ),
 
--- Step 2: Add previous year's revenue for growth calculation using LAG
+-- CTE to Add previous year's revenue for growth calculation using LAG
 growths AS (
   SELECT
     year,
@@ -18,7 +18,7 @@ growths AS (
   FROM yearly_revenue
 ),
 
--- Step 3: Calculate year-over-year revenue growth rate as a percentage
+-- CTE to calculate year-over-year revenue growth rate as a percentage
 growth_rates AS (
   SELECT
     year,
@@ -32,7 +32,7 @@ growth_rates AS (
   FROM growths
 ),
 
--- Step 4: Compute average yearly growth rate (excluding the first year)
+-- CTE to compute average yearly growth rate (excluding the first year)
 avg_growth AS (
   SELECT AVG(
     CASE 
@@ -43,7 +43,7 @@ avg_growth AS (
   FROM growths
 ),
 
--- Step 5: Get the most recent year and its revenue for projection
+-- CTE to get the most recent year and its revenue for projection
 latest_year AS (
   SELECT year, revenue
   FROM yearly_revenue
@@ -51,7 +51,7 @@ latest_year AS (
   LIMIT 1
 ),
 
--- Step 6: Project the next year's revenue using the average growth rate
+-- CTE to get projection for the next year's revenue using the average growth rate
 projection AS (
   SELECT 
     (latest_year.year + 1) || ' (Projection)' AS year,             -- Label the year as a projection
@@ -60,8 +60,8 @@ projection AS (
   FROM latest_year, avg_growth
 )
 
--- Step 7: Combine actual growth data with the projection and show the result
-SELECT 
+-- Combine actual growth data with the projection and show the result
+SELECT
   year::text AS year,
   revenue,
   growth_rate

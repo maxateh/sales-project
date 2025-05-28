@@ -124,3 +124,17 @@ FROM
     sales_record
 GROUP BY
     order_priority;
+
+
+-- Percentage of Profits by Item Type
+SELECT 
+    item_type,
+    SUM(Total_profit) AS total_profit,
+    ROUND(SUM(total_profit) * 100.0 / SUM(SUM(total_profit)) OVER (), 2) AS profit_percentage
+FROM 
+    sales_record
+GROUP BY 
+    item_type
+ORDER BY 
+    total_profit DESC
+LIMIT 10;

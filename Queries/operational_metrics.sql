@@ -42,14 +42,13 @@ ORDER BY
     delivery_days DESC;
 
 
--- Top 10 products by profit margin
-SELECT 
-    item_type, 
-    SUM(total_profit) / SUM(total_cost) AS profit_margin
-FROM 
+-- Top products by profit
+SELECT
+    item_type,
+    SUM(total_profit) AS profits
+FROM
     sales_record
-GROUP BY 
+GROUP BY
     item_type
-ORDER BY 
-    profit_margin DESC
-LIMIT 10;
+ORDER BY
+    profits DESC;

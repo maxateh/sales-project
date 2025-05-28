@@ -132,3 +132,15 @@ SELECT
   ROUND(avg_growth.avg_growth_rate * 100, 2) AS growth_percent_used
 FROM
   last_year, avg_growth;
+
+SELECT 
+    item_type,
+    SUM(Total_profit) AS total_profit,
+    ROUND(SUM(total_profit) * 100.0 / SUM(SUM(total_profit)) OVER (), 2) AS profit_percentage
+FROM 
+    sales_record
+GROUP BY 
+    item_type
+ORDER BY 
+    total_profit DESC
+LIMIT 10;

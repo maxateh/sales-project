@@ -8,7 +8,7 @@ FROM
 -- Delivery time by priority
 SELECT 
     order_priority, 
-    AVG(ship_date - order_date) AS avg_delivery_days
+    ROUND(AVG(ship_date - order_date), 0) AS avg_delivery_days
 FROM 
     sales_record
 GROUP BY 

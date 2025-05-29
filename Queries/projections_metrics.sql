@@ -132,3 +132,80 @@ SELECT
   ROUND(avg_growth.avg_growth_rate * 100, 2) AS growth_percent_used
 FROM
   last_year, avg_growth;
+
+
+
+WITH yearly_revenue AS (
+  SELECT
+    EXTRACT(YEAR FROM order_date)::int AS year,
+    SUM(total_revenue) AS revenue
+  FROM
+    sales_record
+  GROUP BY 
+    EXTRACT(YEAR FROM order_date)
+),
+growths AS (
+  SELECT
+    year,
+    revenue,
+    LAG(revenue) OVER (ORDER BY year) AS prev_revenue
+  FROM
+    yearly_revenue
+),
+growth_rates AS (
+  SELECT
+    year,
+    revenue,
+    ROUND(
+      CASE 
+        WHEN prev_revenue IS NULL THEN NULL
+        ELSE (revenue - prev_revenue) / prev_revenue * 100
+      END, 2
+    ) AS growth_rate
+  FROM
+    growths
+),
+avg_growth AS (
+  SELECT AVG(
+    CASE 
+      WHEN prev_revenue IS NULL THEN NULL
+      ELSE (revenue - prev_revenue) / prev_revenue
+    END
+  ) AS avg_growth_rate
+  FROM
+    growths
+),
+latest_year AS (
+  SELECT
+    year,
+    revenue
+  FROM
+    yearly_revenue
+  ORDER BY
+    year DESC
+  LIMIT 1
+),
+projection AS (
+  SELECT 
+    (latest_year.year + 1)::text || ' (Projection)' AS year,
+    ROUND(latest_year.revenue * (1 + avg_growth.avg_growth_rate), 2) AS revenue,
+    ROUND(avg_growth.avg_growth_rate * 100, 2) AS growth_rate
+  FROM
+    latest_year,
+    avg_growth
+)
+SELECT
+  year::text AS year,
+  revenue,
+  growth_rate
+FROM
+  growth_rates
+UNION ALL
+SELECT 
+  year,
+  revenue,
+  growth_rate
+FROM
+  projection
+ORDER BY
+  year ASC;

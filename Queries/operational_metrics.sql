@@ -1,3 +1,6 @@
+
+
+
 -- Average Delivery Time for Each Order Priority
 SELECT 
   order_priority,
